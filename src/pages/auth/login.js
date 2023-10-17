@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
+import axios from "axios";
 import * as Yup from "yup";
 import { Box, Button, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
 import { useAuth } from "src/hooks/use-auth";
@@ -12,9 +13,24 @@ const Page = () => {
   const auth = useAuth();
   const [method, setMethod] = useState("email");
 
-  /* El Hook `useFormik` se usa para crear una instancia de formik, que ayuda a administrar el
-  estado, la validación y el envío del formulario en React. */
+  const handleApiCall = async (values) => {
+    try {
+      // Realiza la solicitud a la API de Node.js
+      const response = await axios.post("URL_DE_TU_API", {
+        email: values.email,
+        password: values.password,
+      });
 
+      // Maneja la respuesta de la API aquí
+      console.log("Respuesta de la API:", response.data);
+      // Puedes realizar redirecciones o actualizar el estado del componente según la respuesta
+    } catch (error) {
+      // Maneja los errores de la API aquí
+      console.error("Error al llamar a la API:", error);
+    }
+  };
+
+  /* crear una instancia de Formik. */
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -25,9 +41,14 @@ const Page = () => {
       email: Yup.string().email("Debe ser un email valido").required("Campo requerido").max(255),
       password: Yup.string().max(255).required("Contraseña requerida"),
     }),
+
+    /* La función `onSubmit` es una función asincrónica que se llama cuando se envía el formulario. Es
+responsable de manejar la lógica de envío del formulario, incluido el inicio de sesión del usuario y
+su redirección a la página de inicio si el inicio de sesión se realiza correctamente. */
     onSubmit: async (values, helpers) => {
       try {
         await auth.signIn(values.email, values.password);
+        await handleApiCall(values);
         router.push("/");
       } catch (err) {
         helpers.setStatus({ success: false });
