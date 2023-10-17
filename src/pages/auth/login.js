@@ -11,6 +11,10 @@ const Page = () => {
   const router = useRouter();
   const auth = useAuth();
   const [method, setMethod] = useState("email");
+
+  /* El Hook `useFormik` se usa para crear una instancia de formik, que ayuda a administrar el
+  estado, la validación y el envío del formulario en React. */
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -33,6 +37,8 @@ const Page = () => {
     },
   });
 
+  /* Cuando hay más de un Tab de autenticación evita la renderización de ambos componentes unicamente
+renderiza la vista sobre la que estamos o seleccionamos Se necesitan dos parámetros: "evento" y "valor". */
   const handleMethodChange = useCallback((event, value) => {
     setMethod(value);
   }, []);
@@ -61,7 +67,7 @@ const Page = () => {
         >
           <div>
             <Stack spacing={1} sx={{ mb: 3 }}>
-              <Typography variant="h4">CRM Hotel</Typography>
+              <Typography variant="h2">CRM Hotel</Typography>
             </Stack>
             <Tabs onChange={handleMethodChange} sx={{ mb: 3 }} value={method}>
               <Tab label="Email de usuario Rocca" value="email" />
