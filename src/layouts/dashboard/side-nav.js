@@ -13,7 +13,8 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { Logo } from "src/components/logo-hilton";
+import { LogoHilton } from "src/components/logo-hilton";
+import { LogoWhyndham } from "src/components/logo-Whydham";
 import { Scrollbar } from "src/components/scrollbar";
 import { items } from "./config";
 import { SideNavItem } from "./side-nav-item";
@@ -48,11 +49,13 @@ export const SideNav = (props) => {
             href="/"
             sx={{
               display: "inline-flex",
-              height: 32,
-              width: 32,
+              height: 50,
+              width: 50,
+              gap: 2,
             }}
           >
-            <Logo />
+            <LogoHilton />
+            <LogoWhyndham />
           </Box>
           <Box
             sx={{

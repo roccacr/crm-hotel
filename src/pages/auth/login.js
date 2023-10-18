@@ -13,16 +13,79 @@ const Page = () => {
   const auth = useAuth();
   const [method, setMethod] = useState("email");
 
+  const [mensaje, setMensaje] = useState("");
   const handleApiCall = async (values) => {
     try {
+      const email_admin = values.email;
+      const password = values.password;
+      const sqlQuery = { email_admin, password };
       // Realiza la solicitud a la API de Node.js
-      const response = await axios.post("URL_DE_TU_API", {
-        email: values.email,
-        password: values.password,
-      });
+      const queryData = { sqlQuery };
+
+      const apiUrl = "https://d592-201-203-6-201.ngrok-free.app/Api/V2/authenticated";
+
+      // const response = await axios.post(apiUrl, queryData);
+      // const responseData = response.data;
+      const requestOptions = {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(queryData),
+      };
+
+      let response;
+
+      do {
+        response = await fetch(apiUrl, requestOptions);
+
+        if (!response.ok) {
+          await new Promise((resolve) => setTimeout(resolve, 40000));
+        }
+      } while (!response.ok);
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+      if (responseData.statusCode == 200) {
+        const admin_acceso = responseData.result[0];
+        const adminData = {
+          id_acceso: admin_acceso.id_admin,
+
+          token_acceso: admin_acceso.token_admin,
+
+          name_acceso: admin_acceso.name_admin,
+
+          email_acceso: admin_acceso.email_admin,
+
+          NetsuiteId_acceso: admin_acceso.idnetsuite_admin,
+
+          pass_admin_va: admin_acceso.pass_admin,
+
+          token_exp_va: admin_acceso.token_exp_admin,
+
+          rol_va: admin_acceso.id_rol_admin,
+        };
+        sessionStorage.removeItem("admin");
+        sessionStorage.setItem("admin", JSON.stringify(adminData));
+        handleSkip("/");
+      }
+
+      if (responseData.statusCode == 500) {
+        setMensaje(responseData.error.results);
+      }
+      // Guardar el nuevo objeto en sessionStorage
+      //aqui cre la sesion del admin
+
+      // return responseData;
 
       // Maneja la respuesta de la API aquí
-      console.log("Respuesta de la API:", response.data);
+      // console.log("Respuesta de la API", response);
       // Puedes realizar redirecciones o actualizar el estado del componente según la respuesta
     } catch (error) {
       // Maneja los errores de la API aquí
@@ -47,9 +110,13 @@ responsable de manejar la lógica de envío del formulario, incluido el inicio d
 su redirección a la página de inicio si el inicio de sesión se realiza correctamente. */
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values.email, values.password);
         await handleApiCall(values);
-        router.push("/");
+        await auth.signIn(values.email_admin, values.password);
+        const storedAdminData = JSON.parse(sessionStorage.getItem("admin"));
+        console.log(email_admin);
+        if (storedAdminData) {
+          router.push("/");
+        }
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -64,11 +131,17 @@ renderiza la vista sobre la que estamos o seleccionamos Se necesitan dos paráme
     setMethod(value);
   }, []);
 
+  const handleSkip = useCallback(() => {
+    auth.skip();
+    router.push("/");
+  }, [auth, router]);
+
   return (
     <>
       <Head>
         <title>CRM Hotel</title>
       </Head>
+
       <Box
         sx={{
           backgroundColor: "background.paper",
@@ -127,6 +200,9 @@ renderiza la vista sobre la que estamos o seleccionamos Se necesitan dos paráme
                 <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained">
                   Continue
                 </Button>
+                <Typography color="error" sx={{ mt: 3 }} variant="body2">
+                  {mensaje}
+                </Typography>
               </form>
             )}
           </div>
