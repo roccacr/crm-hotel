@@ -22,7 +22,7 @@ const Page = () => {
       // Realiza la solicitud a la API de Node.js
       const queryData = { sqlQuery };
 
-      const apiUrl = "https://d592-201-203-6-201.ngrok-free.app/Api/V2/authenticated";
+      const apiUrl = "https://1a1b-201-203-6-201.ngrok-free.app/Api/V2/authenticated";
 
       // const response = await axios.post(apiUrl, queryData);
       // const responseData = response.data;
