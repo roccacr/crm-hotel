@@ -14,18 +14,17 @@ import { applyPagination } from "src/utils/apply-pagination";
 const now = new Date();
 
 let element = {
-  id: "123",
-  address: {
-    city: "San Jose",
-    country: "Costa Rica",
-    state: "Santa Ana",
-    street: "100 mts norte de pollolandia",
-  },
+  id: "id_cliente",
   avatar: "/assets/avatars/avatar-carson-darrin.png",
   createdAt: subDays(subHours(now, 7), 1).getTime(),
-  email: "prueba@prueba.com",
-  name: "Oscar Darce",
-  phone: "85871047",
+  company: "empresa_cliente",
+  contacto: "nombre_cliente",
+  email: "correo_cliente",
+  name: "empresa_cliente",
+  phone: "telefono_cliente",
+  type: "tipo_cliente",
+  executive: "ejecutivos_name",
+  credit: "credito_cliente",
 };
 
 const data = [];
@@ -75,7 +74,7 @@ const Page = () => {
           <Stack spacing={3}>
             <Stack direction="row" justifyContent="space-between" spacing={4}>
               <Stack spacing={1}>
-                <Typography variant="h4">Customers</Typography>
+                <Typography variant="h4">Clientes</Typography>
                 <Stack alignItems="center" direction="row" spacing={1}>
                   <Button
                     color="inherit"
@@ -85,7 +84,7 @@ const Page = () => {
                       </SvgIcon>
                     }
                   >
-                    Import
+                    Importar
                   </Button>
                   <Button
                     color="inherit"
@@ -95,7 +94,7 @@ const Page = () => {
                       </SvgIcon>
                     }
                   >
-                    Export
+                    Exportar
                   </Button>
                 </Stack>
               </Stack>
@@ -108,7 +107,7 @@ const Page = () => {
                   }
                   variant="contained"
                 >
-                  Add
+                  Agregar
                 </Button>
               </div>
             </Stack>

@@ -4,7 +4,6 @@ import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Stack,
   Table,
   TableBody,
@@ -15,25 +14,17 @@ import {
   Typography,
 } from "@mui/material";
 import { Scrollbar } from "src/components/scrollbar";
-import { getInitials } from "src/utils/get-initials";
 
 export const CustomersTable = (props) => {
   const {
     count = 0,
     items = [],
-    onDeselectAll,
-    onDeselectOne,
     onPageChange = () => {},
     onRowsPerPageChange,
-    onSelectAll,
-    onSelectOne,
     page = 0,
     rowsPerPage = 0,
     selected = [],
   } = props;
-
-  const selectedSome = selected.length > 0 && selected.length < items.length;
-  const selectedAll = items.length > 0 && selected.length === items.length;
 
   return (
     <Card>
@@ -42,6 +33,7 @@ export const CustomersTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell></TableCell>
                 <TableCell>Empresa</TableCell>
                 <TableCell>Contacto</TableCell>
                 <TableCell>Correo</TableCell>
@@ -49,6 +41,7 @@ export const CustomersTable = (props) => {
                 <TableCell>Tipo</TableCell>
                 <TableCell>Ejecutivo</TableCell>
                 <TableCell>Credito</TableCell>
+                <TableCell>Fecha de cración</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -60,15 +53,17 @@ export const CustomersTable = (props) => {
                   <TableRow hover key={customer.id} selected={isSelected}>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
-                        <Avatar src={customer.avatar}>{getInitials(customer.name)}</Avatar>
-                        <Typography variant="subtitle2">{customer.name}</Typography>
+                        <Avatar src={customer.avatar} />
+                        <Typography variant="subtitle2"></Typography>
                       </Stack>
                     </TableCell>
+                    <TableCell>{customer.name}</TableCell>
+                    <TableCell>{customer.contacto}</TableCell>
                     <TableCell>{customer.email}</TableCell>
-                    <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
-                    </TableCell>
                     <TableCell>{customer.phone}</TableCell>
+                    <TableCell>{customer.type}</TableCell>
+                    <TableCell>{customer.executive}</TableCell>
+                    <TableCell>{customer.credit}</TableCell>
                     <TableCell>{createdAt}</TableCell>
                   </TableRow>
                 );
