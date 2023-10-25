@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import axios from "axios";
 import * as Yup from "yup";
 import { Box, Button, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
 import { useAuth } from "src/hooks/use-auth";
@@ -22,7 +21,7 @@ const Page = () => {
       // Realiza la solicitud a la API de Node.js
       const queryData = { sqlQuery };
 
-      const apiUrl = "https://69b0-186-4-2-178.ngrok-free.app/Api/V2/authenticated";
+      const apiUrl = "https://2be4-186-4-2-178.ngrok-free.app/Api/V2/authenticated";
 
       // const response = await axios.post(apiUrl, queryData);
       // const responseData = response.data;

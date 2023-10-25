@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "author": "Devias",
   "licence": "MIT",
-  "homepage": "https://devias.io",
+  "homepage": "crm-next",
   "private": false,
   "scripts": {
     "dev": "next",
